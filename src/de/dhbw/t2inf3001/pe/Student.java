@@ -39,13 +39,21 @@ public class Student {
 	}
 
 	private void readDataFromStore(String id) {
-		List<String> data = DataStore.read(id);
-		this.id = id;
-		firstName = data.get(1);
-		lastName = data.get(2);
-		address = new Address(data.get(3), data.get(4), data.get(5),
-				data.get(6), data.get(7));
-		phone = new PhoneNumber(data.get(8), data.get(9), data.get(7));
+		try {
+			List<String> data = DataStore.read(id);	
+			
+			this.id = id;
+			firstName = data.get(1);
+			lastName = data.get(2);
+			address = new Address(data.get(3), data.get(4), data.get(5),
+			data.get(6), data.get(7));
+			phone = new PhoneNumber(data.get(8), data.get(9), data.get(7));
+	
+		} catch (Exception e) {
+			System.out.println("Error: No student with ID: "+id+" was found in the database! \n");
+		}
+		
+
 	}
 
 }
