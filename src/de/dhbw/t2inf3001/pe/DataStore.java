@@ -1,9 +1,13 @@
 package de.dhbw.t2inf3001.pe;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,11 +38,43 @@ public class DataStore {
 				try {
 					br.close();
 				} catch (IOException e) {
-					//ignore
+					throw new Error(e);
 				}
 			}
 		}
 		return result;
 	}
 	
+	public static void write(Student student) {
+		FileWriter fw = null;
+		BufferedWriter bw = null;
+		
+		try {
+			fw = new FileWriter("datastore.csv", true);			
+			bw = new BufferedWriter(fw);
+			bw.write("test");
+			bw.newLine();
+			bw.close();
+		}catch (FileNotFoundException e) {
+			throw new IllegalArgumentException(e);
+		}catch (IOException e) {
+			throw new IllegalArgumentException(e);
+		}finally {
+			if(bw != null) {
+				try {
+					bw.close();
+				}catch(IOException e) {
+					throw new Error(e);
+				}
+			}
+			if(fw != null) {
+				try {
+					fw.close();
+				}catch(IOException e) {
+					throw new Error(e);
+				}
+			}
+		}
+		
+	}
 }

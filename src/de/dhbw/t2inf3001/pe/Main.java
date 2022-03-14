@@ -1,8 +1,13 @@
 package de.dhbw.t2inf3001.pe;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
+
+import de.dhbw.t2inf3001.pe.exceptions.StudentNotFoundException;
 
 public class Main {
 
@@ -10,16 +15,13 @@ public class Main {
 	
 	public static void main(String[] args) throws Exception {
 		System.out.println("Welcome to the DHBW Student Management System!");
-
 		String id = null;
-		
 		Student student = null;
 		
 		boolean run = true;		//Benötigt um Schleife zu verlassen aus Switch Case herraus
-		
 		while (run) {
 
-			whatWillYouDo();
+			printMenu();
 			
 			int action = 0;
 			
@@ -30,33 +32,84 @@ public class Main {
 				continue;
 			}
 			
-			
+			//There has to be a better way
 			switch(action) {		//Switch case ggf. Verschlechtbesserung?
 			case 1:
+				clearConsole();
 				System.out.println("Enter id: ");
 				id = cin.readLine();
-				student = new Student(id);
+				
+				try {
+					student = new Student(id);
+				}catch(StudentNotFoundException e) {
+					printStudentNotFoundInDataStore(id);
+					continue;
+				}
 				
 				if(student.getFirstName() != null) {
-				System.out.println("Successfully selected " + student.info() +"\n");
+					clearConsole();
+					System.out.println("Successfully selected " + student.getInfo() +"\n");
 				}
 				break;
+				
 			case 2:
-				System.out.println(student.info());
+				if(student == null) {
+					printNoStudentSelectedError();
+					continue;
+				}
+				if(student.getInfo() == null) {
+					printCannotGetProperty("Info");
+					continue;
+				}
+				clearConsole();
+				System.out.println(student.getInfo());
 				break;
+				
 			case 3:
-				System.out.println(student.address());
+				if(student == null) {
+					printNoStudentSelectedError();
+					continue;
+				}
+				if(student.getAddress() == null) {
+					printCannotGetProperty("Address");
+					continue;
+				}
+				clearConsole();
+				System.out.println(student.getAddress());
 				break;
+				
 			case 4:
-				System.out.println(student.phone());
+				if(student == null) {
+					printNoStudentSelectedError();
+					continue;
+				}
+				if(student.getPhone() == null) {
+					printCannotGetProperty("Phone");
+					continue;
+				}
+				clearConsole();
+				System.out.println(student.getPhone());
 				break;
+				
 			case 5:
-				System.out.println(student.intlPhone());
+				if(student == null) {
+					printNoStudentSelectedError();
+					continue;
+				}
+				if(student.getIntlPhone() == null) {
+					printCannotGetProperty("IntlPhone");
+					continue;
+				}
+				clearConsole();
+				System.out.println(student.getIntlPhone());
 				break;
+				
 			case 6:
 				run = false;
 				break;
+				
 			default:
+				clearConsole();
 				System.out.println("Error: This input is not supported! \n");
 				break;
 			}	
@@ -68,10 +121,34 @@ public class Main {
 		Thread.sleep(2000);		//Zeit damit obige Meldung dargestellt werden kann
 		System.exit(0);		//Beenden des Programms
 	}
-
 	
-	private static void whatWillYouDo() {
-		System.out.println("What will you do?");
+	private static void printNoStudentSelectedError() {
+		clearConsole();
+		System.out.println("You don't have a student selected.\n"
+						 + "Choose Option [1] to select a student\n");
+	}
+	
+	private static void printCannotGetProperty(String prop) {
+		clearConsole();
+		System.out.println("The selected Student does not have to property: <"
+						 + prop + ">\n");
+	}
+	
+	private static void printStudentNotFoundInDataStore(String id) {
+		clearConsole();
+		System.out.println("No Student with the ID: <" + id + "> was found in the DataStore.\n"
+						 + "Please consider choosing another ID or contact the support.\n");
+	}
+	
+	private static void clearConsole() {
+		//Maybe there is a better way, i didn't find any
+		for(int i = 0; i < 100; i++) {
+			System.out.println("\n");
+		}
+	}
+	
+	private static void printMenu() {
+		System.out.println("Please select an option...");
 		System.out.println("[1] - Search for student by id");		//Suche nach ID zielführend?
 		System.out.println("[2] - Display info");					//Info gibt nur name aus
 		System.out.println("[3] - Display address");

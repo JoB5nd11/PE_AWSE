@@ -1,10 +1,7 @@
 package de.dhbw.t2inf3001.pe;
 
 import static org.junit.Assert.*;
-
 import org.junit.Test;
-
-import de.dhbw.t2inf3001.pe.PhoneNumber;
 
 public class PhoneNumberTest {
 
@@ -19,7 +16,7 @@ public class PhoneNumberTest {
 	public void testFormatInternational() {
 		PhoneNumber phone = new PhoneNumber("01234", "56789", "DE");
 		String expected = "+49-1234-56789";
-		assertEquals(expected, phone.format());
+		assertEquals(expected, phone.formatInternational());
 	}
 
 }
