@@ -10,10 +10,15 @@ import java.io.InputStreamReader;
 import de.dhbw.t2inf3001.pe.exceptions.StudentNotFoundException;
 
 public class Main {
+	
 
 	private static BufferedReader cin = new BufferedReader(new InputStreamReader(System.in));
 	
 	public static void main(String[] args) throws Exception {
+		
+		LanguageFactory factory;
+		String lang = "DE";
+		
 		System.out.println("Welcome to the DHBW Student Management System!");
 		String id = null;
 		Student student = null;
@@ -40,8 +45,15 @@ public class Main {
 				id = cin.readLine();
 				
 				try {
-					student = new Student(id);
-				}catch(StudentNotFoundException e) {
+					if(lang == "EN") {
+						factory = new EN_Factory();
+						student = new Student(id,factory);
+					}else{
+						factory = new DE_Factory();
+						student = new Student(id,factory);
+					}
+					
+				}catch(Exception e) {
 					printStudentNotFoundInDataStore(id);
 					continue;
 				}

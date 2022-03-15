@@ -14,12 +14,15 @@ public class Student {
 	private String lastName;
 	private Address address;
 	private PhoneNumber phone;
+	private LanguageFactory factory;
 
-	public Student(String id) throws StudentNotFoundException {
+	public Student(String id, LanguageFactory factory) throws Exception {
+		
+		this.factory = factory;
 		try {
 			readDataFromStore(id);
 		} catch (Exception e) {
-			throw new StudentNotFoundException();
+			throw new Exception();
 		}
 	}
 	
@@ -71,12 +74,12 @@ public class Student {
 		return id + ": " + firstName + " " + lastName;
 	}
 
-	private void readDataFromStore(String id) throws StudentNotFoundException {
+	private void readDataFromStore(String id) throws Exception {
 		try {
 			List<String> data = DataStore.read(id);	
 			createStudentFromStringsList(data);
 		} catch (Exception e) {
-			throw new StudentNotFoundException();
+			throw new Exception();
 			//System.out.println("Error: No student with ID: " + id + " was found in the database! \n");
 		}
 	}
@@ -85,7 +88,7 @@ public class Student {
 		this.id = data.get(0);
 		this.firstName = data.get(1);
 		this.lastName = data.get(2);
-		this.address = new Address(data.get(3), data.get(4), data.get(5), data.get(6), data.get(7));
-		this.phone = new PhoneNumber(data.get(8), data.get(9), data.get(7));
+		this.address = factory.createAddress(data.get(3), data.get(4), data.get(5), data.get(6), data.get(7));
+		this.phone = factory.createPhoneNumber(data.get(8), data.get(9), data.get(7));
 	}
 }
