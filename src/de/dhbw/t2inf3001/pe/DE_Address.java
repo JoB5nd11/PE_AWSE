@@ -18,7 +18,7 @@ public class DE_Address implements Address{
 		//String newline = System.getProperty("line.separator");
 		StringBuilder builder = new StringBuilder();
 		builder.append(street);
-		builder.append("-DEUTSCH-");
+		builder.append(" ");
 		builder.append(streetNumber);
 		builder.append("\n");
 		builder.append(zipCode);
