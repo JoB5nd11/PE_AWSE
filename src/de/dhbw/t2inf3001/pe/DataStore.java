@@ -44,37 +44,4 @@ public class DataStore {
 		}
 		return result;
 	}
-	
-	public static void write(Student student) {
-		FileWriter fw = null;
-		BufferedWriter bw = null;
-		
-		try {
-			fw = new FileWriter("datastore.csv", true);			
-			bw = new BufferedWriter(fw);
-			bw.write("test");
-			bw.newLine();
-			bw.close();
-		}catch (FileNotFoundException e) {
-			throw new IllegalArgumentException(e);
-		}catch (IOException e) {
-			throw new IllegalArgumentException(e);
-		}finally {
-			if(bw != null) {
-				try {
-					bw.close();
-				}catch(IOException e) {
-					throw new Error(e);
-				}
-			}
-			if(fw != null) {
-				try {
-					fw.close();
-				}catch(IOException e) {
-					throw new Error(e);
-				}
-			}
-		}
-		
-	}
 }

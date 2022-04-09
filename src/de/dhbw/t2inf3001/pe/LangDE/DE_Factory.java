@@ -1,4 +1,8 @@
-package de.dhbw.t2inf3001.pe;
+package de.dhbw.t2inf3001.pe.LangDE;
+
+import de.dhbw.t2inf3001.pe.PhoneNumber;
+import de.dhbw.t2inf3001.pe.Interfaces.Address;
+import de.dhbw.t2inf3001.pe.Interfaces.LanguageFactory;
 
 public class DE_Factory implements LanguageFactory{
 

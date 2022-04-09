@@ -1,13 +1,14 @@
-package de.dhbw.t2inf3001.pe;
+package de.dhbw.t2inf3001.pe.LangUS;
 
-public class GB_Address implements Address{
-	
+import de.dhbw.t2inf3001.pe.Interfaces.Address;
+
+public class US_Address implements Address{
 	private String street;
 	private String streetNumber;
 	private String city;
 	private String zipCode;
 	
-	public GB_Address(String street, String streetNumber, String city, String zipCode, String country) {
+	public US_Address(String street, String streetNumber, String city, String zipCode, String country) {
 		this.street = street;
 		this.streetNumber = streetNumber;
 		this.city = city;
@@ -15,16 +16,15 @@ public class GB_Address implements Address{
 	}
 	
 	public String format() {
-		//String newline = System.getProperty("line.separator");
+		//Source: https://grammar.yourdictionary.com/writing/how-to-write-an-address-correctly.html
 		StringBuilder builder = new StringBuilder();
 		builder.append(streetNumber);
 		builder.append(" ");
 		builder.append(street);
 		builder.append("\n");
-		builder.append(city.toUpperCase());
-		builder.append("\n");
-		builder.append(zipCode.toUpperCase());
+		builder.append(city);
+		builder.append(", ");
+		builder.append(zipCode);
 		return builder.toString();
 	}
-
 }

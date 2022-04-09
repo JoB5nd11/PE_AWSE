@@ -5,6 +5,8 @@ import java.util.List;
 
 import javax.security.auth.login.AccountNotFoundException;
 
+import de.dhbw.t2inf3001.pe.Interfaces.Address;
+import de.dhbw.t2inf3001.pe.Interfaces.LanguageFactory;
 import de.dhbw.t2inf3001.pe.exceptions.StudentNotFoundException;
 
 public class Student {
@@ -21,13 +23,15 @@ public class Student {
 		this.factory = factory;
 		try {
 			readDataFromStore(id);
-		} catch (Exception e) {
-			throw new Exception();
+		} catch (StudentNotFoundException e) {
+			throw new StudentNotFoundException();
 		}
 	}
 	
 	//for debug/unit testing purposes only
-	public Student(String id, String firstName, String lastName, String address, String phone) {
+	public Student(String id, String firstName, String lastName, String address, String phone, LanguageFactory factory) {
+		this.factory = factory;
+		
 		List<String> data = new ArrayList<String>();
 		data.add(id);
 		data.add(firstName);
@@ -84,6 +88,7 @@ public class Student {
 		}
 	}
 	
+	//Is used just for Unit Test
 	private void createStudentFromStringsList(List<String> data) {
 		this.id = data.get(0);
 		this.firstName = data.get(1);

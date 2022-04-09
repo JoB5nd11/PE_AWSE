@@ -1,10 +1,12 @@
-package de.dhbw.t2inf3001.pe;
+package de.dhbw.t2inf3001.pe.TestDE;
 
 import static org.junit.Assert.*;
 import org.junit.Test;
-import de.dhbw.t2inf3001.pe.Address;
 
-public class AddressTest {
+import de.dhbw.t2inf3001.pe.Interfaces.Address;
+import de.dhbw.t2inf3001.pe.LangDE.DE_Address;
+
+public class AddressTestDE {
 	@Test
 	public void testFormatBasic() {
 		Address address = new DE_Address("Finkenweg", "1", "Berlin", "12345", "DE");

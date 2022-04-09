@@ -1,13 +1,14 @@
-package de.dhbw.t2inf3001.pe;
+package de.dhbw.t2inf3001.pe.LangFR;
 
-public class DE_Address implements Address{
-	
+import de.dhbw.t2inf3001.pe.Interfaces.Address;
+
+public class FR_Address implements Address{
 	private String street;
 	private String streetNumber;
 	private String city;
 	private String zipCode;
 	
-	public DE_Address(String street, String streetNumber, String city, String zipCode, String country) {
+	public FR_Address(String street, String streetNumber, String city, String zipCode, String country) {
 		this.street = street;
 		this.streetNumber = streetNumber;
 		this.city = city;
@@ -15,16 +16,15 @@ public class DE_Address implements Address{
 	}
 	
 	public String format() {
-		//String newline = System.getProperty("line.separator");
+		//Source: https://www.smarty.com/articles/la-poste
 		StringBuilder builder = new StringBuilder();
-		builder.append(street);
-		builder.append(" ");
 		builder.append(streetNumber);
+		builder.append(" ");
+		builder.append(street.toUpperCase());
 		builder.append("\n");
 		builder.append(zipCode);
 		builder.append(" ");
-		builder.append(city);
+		builder.append(city.toUpperCase());
 		return builder.toString();
 	}
-
 }

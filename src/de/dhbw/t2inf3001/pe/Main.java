@@ -12,6 +12,11 @@ import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
 
+import de.dhbw.t2inf3001.pe.Interfaces.LanguageFactory;
+import de.dhbw.t2inf3001.pe.LangDE.DE_Factory;
+import de.dhbw.t2inf3001.pe.LangFR.FR_Factory;
+import de.dhbw.t2inf3001.pe.LangGB.GB_Factory;
+import de.dhbw.t2inf3001.pe.LangUS.US_Factory;
 import de.dhbw.t2inf3001.pe.exceptions.StudentNotFoundException;
 
 public class Main {
@@ -19,14 +24,12 @@ public class Main {
 
 	private static BufferedReader cin = new BufferedReader(new InputStreamReader(System.in));
 	private static String id = null;
-	private static LanguageFactory factory;
 	private static Student student;
 	private static String lang;
 	
 	public static void main(String[] args) throws Exception {
 		setLanguage();
 		mainMenue();
-
 	}
 	
 	public static void mainMenue() throws IOException, InterruptedException {
@@ -135,18 +138,48 @@ public class Main {
 		}
 		
 		try {
-			if(lang == "GB") {
-				factory = new GB_Factory();
-			}else if(lang == "DE"){
-				factory = new DE_Factory();
-			}
-			student = new Student(id,factory);
+			LanguageFactory factory = getFactoryFromLanguage(lang);
+			student = new Student(id, factory);
+			
 		}catch(Exception e) {
 			printStudentNotFoundInDataStore(id);
 			waitForUser();
 			mainMenue();
 		}
 	}
+	
+	private static LanguageFactory getFactoryFromLanguage(String lang) {
+		LanguageFactory factory = null;
+		
+		switch(lang) {
+		case "DE":
+			factory = new DE_Factory();
+			break;
+			
+		case "FR":
+			factory = new FR_Factory();
+			break;
+			
+		case "GB":
+			factory = new GB_Factory();
+			break;
+			
+		case "US":
+			factory = new US_Factory();
+			break;
+			
+		default:
+			printLanguageNotFoundError();
+			try {
+				waitForUser();
+				setLanguage();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		return factory;
+	}
+	
 	
 	private static void printNoStudentSelectedError() {
 		clearConsole();
@@ -164,6 +197,12 @@ public class Main {
 		clearConsole();
 		System.out.println("No Student with the ID: <" + id + "> was found in the DataStore.\n"
 						 + "Please consider choosing another ID or contact the support.\n");
+	}
+	
+	private static void printLanguageNotFoundError() {
+		clearConsole();
+		System.out.println("There appears to be a problem with your selected language.\n"
+						 + "Please select it again or consider using another language");
 	}
 	
 	private static void clearConsole() {
@@ -184,49 +223,51 @@ public class Main {
 		
 		String directory = "\\"+System.getProperty("user.dir")+"\\src\\de\\dhbw\\t2inf3001\\pe";
 		LinkedHashSet<String> hashSet = new LinkedHashSet<String>();
+		Iterator itr;
 
 		File[] files = new File(directory).listFiles();
 
 		for (File file : files) {
-		    if (file.isFile() && file.getName().contains("_")) {
-		       String [] stringArr = file.getName().split("_");
-		       hashSet.add(stringArr[0]);
+		    if (file.isDirectory() && file.getName().contains("Lang")) {
+		       hashSet.add(file.getName().split("Lang")[1]);
 		    }
 		}
-		Iterator itr = hashSet.iterator();
 		
 		String input;
-		String systemLang = "DE";//System.getProperty("user.country");
+		String systemLang = System.getProperty("user.country");
 		System.out.println("Initial setup");
 		System.out.println("---------------------------------");
-		System.out.println("We have detected that your system is localized in "+systemLang
-				+".\nIf you want to set your application to "+systemLang+" Enter <"+systemLang+"> otherwise enter the desired location.");
+		System.out.println("We have detected that your system is localized in " + systemLang
+						 + ".\nIf you want to set your application to " + systemLang + " Enter <" + systemLang + "> otherwise enter the desired location.");
 		System.out.print("\nCurrently The following locations are supported: ");
+		
+		itr = hashSet.iterator();
 		while (itr.hasNext()) {
-          System.out.print(itr.next()+", ");
+          System.out.print(itr.next() + ", ");
         }
+		
 		System.out.println("\n---------------------------------");
 		System.out.print(">");
 		input = cin.readLine();
 		
-		if(input.equals("DE")) {
-			lang = "DE";
-		}else if(input.equals("GB")){
-				lang = "GB";
-			}else {
-				System.out.println("Not Supported");
-		}
 		clearConsole();
-		System.out.println("\nThe display setting was successfully set to "+lang);
-		waitForUser();	
-
+		
+		if(hashSet.contains(input)) {
+			lang = input;
+			System.out.println("\nThe display setting was successfully set to " + lang);
+			waitForUser();	
+		}else {
+			System.out.println("Not Supported");
+			waitForUser();
+			setLanguage();
+		}
 	}
 	
 	private static void printMenu() {
 		System.out.println("Please select an option...");
 		System.out.println("---------------------------------");
-		System.out.println("[1] - Search for student by id");		//Suche nach ID zielführend?
-		System.out.println("[2] - Display info");					//Info gibt nur name aus
+		System.out.println("[1] - Search for student by id");		
+		System.out.println("[2] - Display info");					
 		System.out.println("[3] - Display address");
 		System.out.println("[4] - Display phone number");
 		System.out.println("[5] - Display int'l phone number");
@@ -234,6 +275,4 @@ public class Main {
 		System.out.println("---------------------------------");
 		System.out.print("> ");
 	}
-	
-
 }

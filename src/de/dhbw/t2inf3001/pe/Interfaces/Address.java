@@ -1,4 +1,4 @@
-package de.dhbw.t2inf3001.pe;
+package de.dhbw.t2inf3001.pe.Interfaces;
 
 public interface Address {
 	
