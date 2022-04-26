@@ -26,9 +26,9 @@ import de.dhbw.t2inf3001.pe.LangGB.GB_Factory;
 import de.dhbw.t2inf3001.pe.LangUS.US_Factory;
 import de.dhbw.t2inf3001.pe.exceptions.StudentNotFoundException;
 
+//Die Main Class steuert die Anwendung und bietet Interaktionsmöglichkeiten für die Benutzer
 public class Main {
 	
-
 	private static BufferedReader cin = new BufferedReader(new InputStreamReader(System.in));
 	private static String id = null;
 	private static Student student;

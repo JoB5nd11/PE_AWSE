@@ -11,6 +11,9 @@ import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.List;
 
+
+//Diese Klasse liest die Studentendaten aus der CSV-Datei "datastore.csv"
+//Sie ist nicht Teil der Betrachtung und wurde auch nicht verändert
 public class DataStore {
 
 	public static List<String> read(String id) {

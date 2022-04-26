@@ -1,8 +1,8 @@
 package de.dhbw.t2inf3001.pe.Interfaces;
 
+//Stellt das Interface für die untersützten Adressklassen dar (z. B. DE_Address)
 public interface Address {
 	
-	//public DE_Address(String street, String streetNumber, String city, String zipCode, String country);
 	public String format();
 
 }
