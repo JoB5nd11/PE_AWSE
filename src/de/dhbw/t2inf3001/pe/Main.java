@@ -59,7 +59,8 @@ public class Main {
 				continue;
 			}
 			
-			if(1 < action && action < 6) {		//Abfangen der Nutzereingaben / Menüpunkte 2-5, sofern noch kein Student ausgewählt wurde
+			//Abfangen der Nutzereingaben / Menüpunkte 2-5, sofern noch kein Student ausgewählt wurde
+			if(1 < action && action < 6) {		
 				if(student == null) {
 					printNoStudentSelectedError();		//Ausgabe der Fehlermeldung
 					selectStudent();					//Direkter Aufruf zum Auswahl einer Studenten ID
@@ -159,18 +160,23 @@ public class Main {
 		
 		//Erstellen einer LanguageFactory für die zuvor ausgewählte Sprache
 		try {
-			LanguageFactory factory = getFactoryFromLanguage(lang);		//Erstellen einer neuen Factory abhängig von der ausgewählten Sprache
-			student = new Student(id, factory);		//Erstellen eines neuen Studenten, übergabe der id und factory im Konstruktor
+			//Erstellen einer neuen Factory abhängig von der ausgewählten Sprache
+			//Erstellen eines neuen Studenten, übergabe der id und factory im Konstruktor
+			LanguageFactory factory = getFactoryFromLanguage(lang);		
+			student = new Student(id, factory);		
 			
 		}catch(Exception e) {
-			printStudentNotFoundInDataStore(id);		//Abfangen falls der Student nicht gefunden wurde
+			//Abfangen falls der Student nicht gefunden wurde
+			printStudentNotFoundInDataStore(id);		
 			waitForUser();
 			mainMenue();
 		}
 	}
 	
-	//Methode erstellt passende Factory abhängig von der Spracheinstellung, bei der Erweiterung der unterstützen Darstellungen kann diese Methode leicht angepasst werden
-	private static LanguageFactory getFactoryFromLanguage(String lang) {		//Gewählter Sprachenkürzel ist Übergabeparameter
+	//Methode erstellt passende Factory abhängig von der Spracheinstellung, 
+	//bei der Erweiterung der unterstützen Darstellungen kann diese Methode leicht angepasst werden
+	//Gewählter Sprachenkürzel ist Übergabeparameter
+	private static LanguageFactory getFactoryFromLanguage(String lang) {		
 		LanguageFactory factory = null;
 		
 		switch(lang) {		//Erstellen der passenden Factory abhängig vom Sprachkürzel
@@ -246,18 +252,22 @@ public class Main {
 		clearConsole();
 	}
 	
-	//Methode erlaubt das Setzen der Darstellungsprache, hierbei werden dem Nutzer automatisch die unterstützen Spachen ausgegeben
+	//Methode erlaubt das Setzen der Darstellungsprache, 
+	//hierbei werden dem Nutzer automatisch die unterstützen Spachen ausgegeben
 	private static void setLanguage() throws IOException {
 		
-		String directory = "\\"+System.getProperty("user.dir")+"\\src\\de\\dhbw\\t2inf3001\\pe";		//Speichert das Arbeitsverzeichnis der Anwendung in der Variablen directory
+		//Speichert das Arbeitsverzeichnis der Anwendung in der Variablen directory
+		String directory = "\\"+System.getProperty("user.dir")+"\\src\\de\\dhbw\\t2inf3001\\pe";		
 		LinkedHashSet<String> hashSet = new LinkedHashSet<String>();		//HashSet vermeidet Dopplungen
 		Iterator itr;
 
 		File[] files = new File(directory).listFiles();		//Speichern der Dateinamen im Verzeichnis
 
+		//Durchsucht das Verzeichnis nach Unterverzeichnisen mit "Lang"
+		//Und speichert das abgeschnittene Sprachkürzel im hashSet (hierdurch ergeben sich die unterstützen Sprachen)
 		for (File file : files) {
-		    if (file.isDirectory() && file.getName().contains("Lang")) {		//Durchsucht das Verzeichnis nach Unterverzeichnisen mit "Lang"
-		       hashSet.add(file.getName().split("Lang")[1]);		//Speichert das abgeschnittene Sprachkürzel im hashSet (hierdurch ergeben sich die unterstützen Sprachen)
+		    if (file.isDirectory() && file.getName().contains("Lang")) {		
+		       hashSet.add(file.getName().split("Lang")[1]);		
 		    }
 		}
 		
